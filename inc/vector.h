@@ -10,7 +10,7 @@
 
 class Vector: public Coords {
 public:
-    Vector(SDL_Renderer *renderer, const int &a = 0, const int &b = 0, const int &c = 0): Coords(renderer, a, b, c) {}
+    Vector(SDL_Renderer *renderer, const int &a = 0, const int &b = 0): Coords(renderer, a, b) {}
     void debug();
     void print();
     Vector *addVectorToVector(Vector *v);

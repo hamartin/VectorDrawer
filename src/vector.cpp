@@ -18,12 +18,12 @@ void Vector::print()
 
 Vector *Vector::addVectorToVector(Vector *v)
 {
-    Vector *ve = new Vector(this->renderer, this->x + v->x, this->y + v->y, this->z + v->z);
+    Vector *ve = new Vector(this->renderer, this->x + v->x, this->y + v->y);
     return ve;
 }
 
 Vector *Vector::subtractVectorFromVector(Vector *v)
 {
-    Vector *ve = new Vector(this->renderer, this->x - v->x, this->y - v->y, this->z - v->z);
+    Vector *ve = new Vector(this->renderer, this->x - v->x, this->y - v->y);
     return ve;
 }

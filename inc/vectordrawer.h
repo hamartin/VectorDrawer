@@ -19,24 +19,26 @@ typedef std::vector<Vector>::iterator vectoriter_vec_t;
 
 class VectorDrawer {
 public:
-    VectorDrawer(const std::string &TITLE, const unsigned int &SCREEN_WIDTH=640, const unsigned int &SCREEN_HEIGHT=480);
+    VectorDrawer(const std::string &TITLE);
     ~VectorDrawer();
-    bool init();
     void begin();
     void debug();
     void print();
+    bool init();
+    bool initObjects();
 private:
     unsigned int SCREEN_WIDTH;
     unsigned int SCREEN_HEIGHT;
     std::string TITLE;
 
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    SDL_Event *event;
+    SDL_DisplayMode *current;
+    SDL_Event       *event;
+    SDL_Renderer    *renderer;
+    SDL_Window      *window;
 
-    point_vec_t points;
-    pointiter_vec_t pointsiter;
-    vector_vec_t vectors;
+    point_vec_t      points;
+    pointiter_vec_t  pointsiter;
+    vector_vec_t     vectors;
     vectoriter_vec_t vectorsiter;
 };
 

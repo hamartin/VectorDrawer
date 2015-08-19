@@ -4,59 +4,38 @@
 
 #include "vectordrawer.h"
 
-VectorDrawer::VectorDrawer(const std::string &TITLE, const unsigned int &SCREEN_WIDTH, const unsigned int &SCREEN_HEIGHT)
+VectorDrawer::VectorDrawer(const std::string &TITLE)
 {
-    this->SCREEN_WIDTH = SCREEN_WIDTH;
-    this->SCREEN_HEIGHT = SCREEN_HEIGHT;
+    this->current  = NULL;
+    this->event    = NULL;
+    this->renderer = NULL;
+    this->window   = NULL;
+
     this->TITLE = TITLE;
 
-    this->window = NULL;
-    this->renderer = NULL;
-    this->event = NULL;
+    if(!this->init())
+        return; // Die
+    if(!this->initObjects())
+        return; // Die
 }
 
 VectorDrawer::~VectorDrawer()
 {
+    delete this->current;
+    delete this->event;
     SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(this->window);
     SDL_Quit();
 }
 
-bool VectorDrawer::init()
-{
-    bool ret = false;
-    char err[200]; err[0] = 0;
-
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
-        sprintf(err, "SDL coult not initialise! SDL_ERROR: %s\n", SDL_GetError());
-    } else {
-        this->window = SDL_CreateWindow(this->TITLE.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        this->event = new SDL_Event;
-        if(this->window == NULL) {
-            sprintf(err, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
-        } else if(this->renderer == NULL) {
-            sprintf(err, "Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
-        } else if(this->event == NULL) {
-            sprintf(err, "SDL Event object could not be created! SDL_Error: %s\n", SDL_GetError());
-        } else {
-            ret = true;
-        }
-    }
-
-    if(strlen(err) != 0) {
-        SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, err);
-    }
-    return ret;
-}
-
 void VectorDrawer::begin()
 {
-    for(int i = 0; i < 3000; i++) {
-        points.push_back(Point(this->renderer, i % 640, i % 480));
+    for(int i = 0; i < 50000; i++) {
+        points.push_back(Point(this->renderer, i % this->SCREEN_WIDTH, i % this->SCREEN_HEIGHT));
     }
     for(pointsiter = points.begin(); pointsiter != points.end(); ++pointsiter) {
         pointsiter->addToCanvas();
+        //pointsiter->print();
     }
 
     bool quit = false;
@@ -77,4 +56,44 @@ void VectorDrawer::debug()
 void VectorDrawer::print()
 {
     SDL_RenderPresent(this->renderer);
+}
+
+bool VectorDrawer::init()
+{
+    char err[200]; err[0] = 0;
+
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        sprintf(err, "SDL could not initialise! SDL_ERROR: %s\n", SDL_GetError());
+        SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, err);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+bool VectorDrawer::initObjects()
+{
+    char err[200]; err[0] = 0;
+
+    this->event = new SDL_Event;
+    this->current = new SDL_DisplayMode;
+    SDL_GetCurrentDisplayMode(0, this->current);
+    this->SCREEN_WIDTH = this->current->w; this->SCREEN_HEIGHT = this->current->h;
+    this->window = SDL_CreateWindow(this->TITLE.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    if(this->window == NULL) {
+        sprintf(err, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    } else if(this->renderer == NULL) {
+        sprintf(err, "Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+    } else if(this->event == NULL) {
+        sprintf(err, "SDL Event object could not be created! SDL_Error: %s\n", SDL_GetError());
+    } else if(this->current == NULL) {
+        sprintf(err, "SDL current displaymode failed! SDL_Error: %s\n", SDL_GetError());
+    } else {
+        return true;
+    }
+
+    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, err);
+    return false;
 }

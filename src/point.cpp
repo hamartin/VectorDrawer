@@ -24,18 +24,18 @@ void Point::addToCanvas()
 
 Point *Point::addVectorToPoint(Vector *v)
 {
-    Point *p = new Point(this->renderer, this->x + v->x, this->y + v->y, this->z + v->z);
+    Point *p = new Point(this->renderer, this->x + v->x, this->y + v->y);
     return p;
 }
 
 Point *Point::subtractVectorFromPoint(Vector *v)
 {
-    Point *p = new Point(this->renderer, this->x - v->x, this->y - v->y, this->z - v->z);
+    Point *p = new Point(this->renderer, this->x - v->x, this->y - v->y);
     return p;
 }
 
 Vector *Point::subtractPointFromPoint(Point *p)
 {
-    Vector *v = new Vector(this->renderer, this->x - p->x, this->y - p->y, this->z - p->z);
+    Vector *v = new Vector(this->renderer, this->x - p->x, this->y - p->y);
     return v;
 }
