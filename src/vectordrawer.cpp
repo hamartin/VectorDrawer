@@ -34,8 +34,8 @@ void VectorDrawer::begin()
         points.push_back(Point(this->renderer, i % this->SCREEN_WIDTH, i % this->SCREEN_HEIGHT));
     }
     for(pointsiter = points.begin(); pointsiter != points.end(); ++pointsiter) {
-        pointsiter->addToCanvas();
-        //pointsiter->print();
+        //pointsiter->addToCanvas();
+        pointsiter->print();
     }
 
     bool quit = false;
@@ -43,7 +43,7 @@ void VectorDrawer::begin()
         while(SDL_PollEvent(this->event) != 0) {
             if(event->type == SDL_QUIT || event->key.keysym.scancode == SDL_SCANCODE_Q)
                 quit = true;
-            this->print();
+            //this->print();
         }
     }
 }
