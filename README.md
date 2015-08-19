@@ -11,3 +11,6 @@ Dependencies:
 
     libsdl*
     libsdl2*
+
+This project is purely for my own learning purposes. Use it to whatever you
+like.
