@@ -9,13 +9,12 @@
 
 class Coords {
 protected:
-    Coords(SDL_Renderer* renderer, const int &a = 0, const int &b = 0);
+    Coords(SDL_Renderer* renderer, const int &a, const int &b);
     void debug();
     void print();
 public:
     SDL_Renderer *renderer;
-    int x;
-    int y;
+    int x, y;
 };
 
 #endif

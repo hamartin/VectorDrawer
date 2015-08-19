@@ -5,9 +5,17 @@
 #include <iostream>
 #include "vector.h"
 
+Vector::Vector(SDL_Renderer *renderer, const int &a, const int &b, const int &origina, const int &originb) : Coords(renderer, a, b)
+{
+    this->ox = origina;
+    this->oy = originb;
+}
+
 void Vector::debug()
 {
     std::cout << "Vector:\n";
+    std::cout << "OX: " << this->ox << std::endl;
+    std::cout << "OY: " << this->oy << std::endl;
     Coords::debug();
 }
 
