@@ -39,10 +39,29 @@ void VectorDrawer::begin()
 
     while(!quit) {
         while(SDL_PollEvent(this->event) != 0) {
-            if(event->type == SDL_QUIT || event->key.keysym.scancode == SDL_SCANCODE_Q)
+            if(event->type == SDL_QUIT || event->key.keysym.scancode == SDL_SCANCODE_Q || event->key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                 quit = true;
-            if(event->key.keysym.scancode == SDL_SCANCODE_D)
+            } else if(event->key.keysym.scancode == SDL_SCANCODE_D) {
                 this->redraw();
+            } else if(event->key.keysym.scancode == SDL_SCANCODE_A) {
+                for(pointiter_vec_t p = points.begin(); p != points.end(); p++) {
+                    Point *pnew = (*p).scale(0.5, 0.5, 0.5);
+                    (*p).setPointToPoint(pnew);
+                    delete pnew;
+                }
+            } else if(event->key.keysym.scancode == SDL_SCANCODE_S) {
+                for(pointiter_vec_t p = points.begin(); p != points.end(); p++) {
+                    Point *pnew = (*p).scale(2, 2, 2);
+                    (*p).setPointToPoint(pnew);
+                    delete pnew;
+                }
+            } else if(event->key.keysym.scancode == SDL_SCANCODE_R) {
+                for(pointiter_vec_t p = points.begin(); p != points.end(); p++) {
+                    Point *pnew = (*p).rotateXY(15);
+                    (*p).setPointToPoint(pnew);
+                    delete pnew;
+                }
+            }
         }
     }
 }

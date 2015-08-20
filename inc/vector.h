@@ -19,7 +19,7 @@ public:
     Vector *rotateXY(const int &degrees);
     Vector *rotateYZ(const int &degrees);
     Vector *rotateXZ(const int &degrees);
-    Vector *scale(const int &a, const int &b, const int &c);
+    Vector *scale(const float &a, const float &b, const float &c);
 };
 
 #endif

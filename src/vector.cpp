@@ -65,7 +65,7 @@ Vector *Vector::rotateXZ(const int &degrees)
     return v;
 }
 
-Vector *Vector::scale(const int &a, const int &b, const int &c)
+Vector *Vector::scale(const float &a, const float &b, const float &c)
 {
     Vector *v = new Vector(this->renderer, this->x *= a, this->y *= b, this->z *= c);
     return v;
