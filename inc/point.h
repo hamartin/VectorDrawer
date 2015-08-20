@@ -11,12 +11,13 @@
 
 class Point: public Coords {
 public:
-    Point(SDL_Renderer *renderer, const int &a, const int &b): Coords(renderer, a, b) {}
+    Point(SDL_Renderer *renderer, const int &a, const int &b, const int &c): Coords(renderer, a, b, c) {}
     void debug();
     void print();
     void addToCanvas();
-    Point *addVectorToPoint(Vector *v);
-    Point *subtractVectorFromPoint(Vector *v);
+    void setPointToPoint(const int &a, const int &b, const int &c);
+    Point  *addVectorToPoint(Vector *v);
+    Point  *subtractVectorFromPoint(Vector *v);
     Vector *subtractPointFromPoint(Point *p);
 };
 

@@ -24,6 +24,7 @@ public:
     void begin();
     void debug();
     void print();
+    void redraw();
     bool init();
     bool initObjects();
 private:

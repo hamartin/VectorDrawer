@@ -10,12 +10,16 @@
 
 class Vector: public Coords {
 public:
-    Vector(SDL_Renderer *renderer, const int &a, const int &b, const int &origina = 0, const int &originb = 0);
+    Vector(SDL_Renderer *renderer, const int &a, const int &b, const int &c) : Coords(renderer, a, b, c) {}
     void debug();
     void print();
+    void addToCanvas();
     Vector *addVectorToVector(Vector *v);
     Vector *subtractVectorFromVector(Vector *v);
-    int ox, oy;
+    Vector *rotateXY(const int &degrees);
+    Vector *rotateYZ(const int &degrees);
+    Vector *rotateXZ(const int &degrees);
+    Vector *scale(const int &a, const int &b, const int &c);
 };
 
 #endif

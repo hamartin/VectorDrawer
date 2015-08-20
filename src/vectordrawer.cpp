@@ -30,20 +30,19 @@ VectorDrawer::~VectorDrawer()
 
 void VectorDrawer::begin()
 {
-    for(int i = 0; i < 50000; i++) {
-        points.push_back(Point(this->renderer, i % this->SCREEN_WIDTH, i % this->SCREEN_HEIGHT));
-    }
-    for(pointsiter = points.begin(); pointsiter != points.end(); ++pointsiter) {
-        //pointsiter->addToCanvas();
-        pointsiter->print();
+    bool quit = false;
+
+    for(int i = 0; i <= 100; ++i) {
+        Point *p = new Point(this->renderer, i, i, i);
+        points.push_back(*p);
     }
 
-    bool quit = false;
     while(!quit) {
         while(SDL_PollEvent(this->event) != 0) {
             if(event->type == SDL_QUIT || event->key.keysym.scancode == SDL_SCANCODE_Q)
                 quit = true;
-            //this->print();
+            if(event->key.keysym.scancode == SDL_SCANCODE_D)
+                this->redraw();
         }
     }
 }
@@ -56,6 +55,14 @@ void VectorDrawer::debug()
 void VectorDrawer::print()
 {
     SDL_RenderPresent(this->renderer);
+}
+
+void VectorDrawer::redraw()
+{
+    SDL_RenderClear(this->renderer);
+    for(pointiter_vec_t p = points.begin(); p != points.end(); ++p) {
+        (*p).print();
+    }
 }
 
 bool VectorDrawer::init()
@@ -79,8 +86,11 @@ bool VectorDrawer::initObjects()
     this->current = new SDL_DisplayMode;
     SDL_GetCurrentDisplayMode(0, this->current);
     this->SCREEN_WIDTH = this->current->w; this->SCREEN_HEIGHT = this->current->h;
-    this->window = SDL_CreateWindow(this->TITLE.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_CreateWindowAndRenderer(0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP, &this->window, &this->renderer);
+    /* Swapped the two lines under for the one over.
+      this->window = SDL_CreateWindow(this->TITLE.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->SCREEN_WIDTH, this->SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+      this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+      */
 
     if(this->window == NULL) {
         sprintf(err, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
