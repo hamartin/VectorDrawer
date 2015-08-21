@@ -1,5 +1,5 @@
 # Project name
-TARGET=vectordrawer
+TARGET=vd
 
 # Directories
 ODIR=obj
@@ -17,16 +17,16 @@ MK_DIR=mkdir -p
 RM_DIR=rmdir
 RM_FIL=rm -f
 
-# Source
-_SRC=coords.cpp point.cpp vd.cpp vector.cpp vectordrawer.cpp
+# Source .cpp
+_SRC=vd.cpp objects.cpp camera.cpp
 SRC=$(patsubst %.cpp, $(SDIR)/%.cpp, $(_SRC))
 
-# Dependencies
-_DEPS=point.h vector.h coords.h vectordrawer.h
+# Dependencies .h
+_DEPS=vd.h objects.h camera.h
 DEPS=$(patsubst %.h, $(IDIR)/%.h, $(_DEPS))
 
-# Objects
-_OBJ=point.o vector.o coords.o vd.o vectordrawer.o
+# Objects .o
+_OBJ=vd.o objects.o camera.o
 OBJ=$(patsubst %.o, $(ODIR)/%.o, $(_OBJ))
 
 all: directories $(TARGET)

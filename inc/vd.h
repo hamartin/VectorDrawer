@@ -1,10 +1,39 @@
-//
-// VECTORDRAWER.H
-//
+/*
+ * VD.H
+ */
 
-#ifndef __VECTORDRAWER_H__
-#define __VECTORDRAWER_H__
+#ifndef __VD_H__
+#define __VD_H__
 
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <string>
+#include "camera.h"
+
+class VD {
+public:
+    VD();
+    ~VD();
+    void start();
+
+protected:
+
+private:
+    bool initSDL();
+
+    unsigned int screen_width, screen_height;
+
+    SDL_DisplayMode *current;
+    SDL_Event *event;
+    SDL_Renderer *renderer;
+    SDL_Window *window;
+    Camera *camera;
+};
+
+int main();
+void logCritical(std::string err);
+
+/*
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <string>
@@ -32,6 +61,7 @@ private:
     unsigned int SCREEN_HEIGHT;
     std::string TITLE;
 
+    Camera          *camera;
     SDL_DisplayMode *current;
     SDL_Event       *event;
     SDL_Renderer    *renderer;
@@ -42,5 +72,6 @@ private:
     vector_vec_t     vectors;
     vectoriter_vec_t vectorsiter;
 };
+*/
 
 #endif
