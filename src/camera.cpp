@@ -25,7 +25,7 @@ void Camera::start()
     bool quit = false;                                                             
                                                                                 
     for(int i = 0; i <= 100; ++i) {                                             
-        Point *p = new Point(this->renderer, i, i, i);                          
+        Point *p = new Point(this->renderer, (this->xMax/2) + i, (this->yMax/2) + i, i);                          
         points.push_back(*p);                                                   
     }                                                                           
                                                                                 
