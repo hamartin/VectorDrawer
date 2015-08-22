@@ -6,23 +6,26 @@
 #define __CAMERA_H__
 
 #include <SDL2/SDL.h>
-#include "objects.h"
+#include "linesegment.h"
+#include "point.h"
+#include "vector.h"
 
 class Camera {
 public:
     Camera(SDL_Renderer *renderer,
             SDL_Event *event,
-            const unsigned int &xMin,
-            const unsigned int &xMax,
-            const unsigned int &yMin,
-            const unsigned int &yMax,
-            const unsigned int &zMin,
-            const unsigned int &zMax);
+            const int &xMin,
+            const int &xMax,
+            const int &yMin,
+            const int &yMax,
+            const int &zMin,
+            const int &zMax);
     void start();
 protected:
 private:
     void draw();
-    void redraw();
+    void drawWithCulling();
+    void drawWithoutCulling();
 
     SDL_Renderer *renderer;
     SDL_Event *event;
@@ -31,8 +34,10 @@ private:
     pointiter_vec_t pointsiter;
     vector_vec_t vectors;
     vectoriter_vec_t vectorsiter;
+    linesegment_vec_t linesegments;
+    linesegmentiter_vec_t linesegmentsiter;
 
-    unsigned int xMin, xMax, yMin, yMax, zMin, zMax;
+    int xMin, xMax, yMin, yMax, zMin, zMax;
 };
 
 #endif

@@ -15,7 +15,7 @@ VD::VD()
     if(!this->initSDL())
         std::cerr << "Something went wrong. Check logs for more details.\n";
 
-    this->camera = new Camera(this->renderer, this->event, 0, this->current->w , 0, this->current->h, 0, 100);
+    this->camera = new Camera(this->renderer, this->event, 0, this->current->w , 0, this->current->h, 0, 50);
 }
 
 VD::~VD()
