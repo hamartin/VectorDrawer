@@ -26,6 +26,9 @@ private:
     void draw();
     void drawWithCulling();
     void drawWithoutCulling();
+    void increaseSize();
+    void rotateXY();
+    void scale(const float &x, const float &y, const float &z);
 
     SDL_Renderer *renderer;
     SDL_Event *event;
