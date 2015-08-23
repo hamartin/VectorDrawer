@@ -12,13 +12,27 @@
 
 class Linesegment {
 public:
-    Linesegment(SDL_Renderer *renderer, const int &sx, const int &sy, const int &sz, const int &ex, const int &ey, const int &ez);
+    Linesegment(SDL_Renderer *renderer,
+            const int &sx,
+            const int &sy,
+            const int &sz,
+            const int &ex,
+            const int &ey,
+            const int &ez);
+    Linesegment *rotateXY(const int &degrees);
+    Linesegment *scale(const float &x, const float &y, const float &z);
+    void addToCanvas(const int &x = 0, const int &y = 0);
     void pointsInSegment();
-    void addToCanvas();
+    void setPoint(const int &sx,
+            const int &sy,
+            const int &sz,
+            const int &ex,
+            const int &ey,
+            const int &ez);
+    int sx, sy, sz, ex, ey, ez;
 protected:
 private:
     SDL_Renderer *renderer;
-    int sx, sy, sz, ex, ey, ez;
     point_vec_t seg;
     pointiter_vec_t segiter;
 };

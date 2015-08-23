@@ -20,10 +20,12 @@ Point *Point::addVector(Vector *v)
 Point *Point::rotateXY(const int &degrees)
 {
     double radian = (degrees * M_PI)/180;
-    double x = this->x * cos(radian) + this->y * -sin(radian);
-    double y = this->x * sin(radian) + this->y * cos(radian);
+    double s = sin(radian);
+    double c = cos(radian);
+    double x = this->x * c - this->y * s;
+    double y = this->x * s + this->y * c;
     double z = this->z;
-    Point *p = new Point(this->renderer, x, y, z);
+    Point *p = new Point(this->renderer, lround(x), lround(y), lround(z));
     return p;
 }
 
@@ -65,9 +67,9 @@ Vector *Point::subtractPoint(Point *p)
     return v;
 }
 
-void Point::addToCanvas()
+void Point::addToCanvas(const int &x, const int &y)
 {
-    SDL_RenderDrawPoint(this->renderer, this->x, this->y);
+    SDL_RenderDrawPoint(this->renderer, this->x+x, this->y+y);
 }
 
 void Point::print()

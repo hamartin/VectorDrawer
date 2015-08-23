@@ -20,7 +20,7 @@ public:
     Point *scale(const float &x, const float &y, const float &z);
     Point *subtractVector(Vector *v);
     Vector *subtractPoint(Point *p);
-    void addToCanvas();
+    void addToCanvas(const int &x = 0, const int &y = 0);
     void print();
     void setPoint(const int &x, const int &y, const int &z);
     void setPoint(Point *p);
