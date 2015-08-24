@@ -9,27 +9,17 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include "point.h"
+#include "object.h"
 
-class Linesegment {
+class Linesegment : public Object {
 public:
-    Linesegment(SDL_Renderer *renderer,
-            const int &sx,
-            const int &sy,
-            const int &sz,
-            const int &ex,
-            const int &ey,
-            const int &ez);
+    Linesegment(SDL_Renderer *renderer, const point_t &s, const point_t &e);
     Linesegment *rotateXY(const int &degrees);
     Linesegment *scale(const float &x, const float &y, const float &z);
-    void addToCanvas(const int &x = 0, const int &y = 0);
+    void addToCanvas();
     void pointsInSegment();
-    void setPoint(const int &sx,
-            const int &sy,
-            const int &sz,
-            const int &ex,
-            const int &ey,
-            const int &ez);
-    int sx, sy, sz, ex, ey, ez;
+    void setPoint(const point_t &s, const point_t &e);
+    int ex, ey, ez;
 protected:
 private:
     SDL_Renderer *renderer;

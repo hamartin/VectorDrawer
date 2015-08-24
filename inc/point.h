@@ -13,7 +13,7 @@
 
 class Point : public Object {
 public:
-    Point(SDL_Renderer *renderer, const point_t &p);
+    Point(SDL_Renderer *renderer, const point_t &p) : Object(renderer, p) {}
     Point *addVector(Vector *v);
     Point *rotateXY(const int &degrees);
     Point *rotateYZ(const int &degrees);
@@ -27,7 +27,6 @@ public:
     void setPoint(Point *p);
 protected:
 private:
-    SDL_Renderer *renderer;
 };
 
 typedef std::vector<Point> point_vec_t;

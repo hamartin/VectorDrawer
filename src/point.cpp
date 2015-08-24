@@ -5,11 +5,6 @@
 #include <iostream>
 #include "point.h"
 
-Point::Point(SDL_Renderer *renderer, const point_t &p) : Object(p)
-{
-    this->renderer = renderer;
-}
-
 Point *Point::addVector(Vector *v)
 {
     point_t newp(this->ox + v->x, this->oy + v->y, this->oz + v->z);

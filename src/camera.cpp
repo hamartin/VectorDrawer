@@ -36,13 +36,13 @@ void Camera::drawWithCulling()
         }
     }
     for(linesegmentiter_vec_t l = this->linesegments.begin(); l != linesegments.end(); l++) {
-        if((*l).sz <= this->zMax && (*l).sz >= this->zMin &&
+        if((*l).oz <= this->zMax && (*l).oz >= this->zMin &&
            (*l).ez <= this->zMax && (*l).ez >= this->zMin &&
-           (*l).sy <= this->yMax && (*l).sy >= this->yMin &&
+           (*l).oy <= this->yMax && (*l).oy >= this->yMin &&
            (*l).ey <= this->yMax && (*l).ey >= this->yMin &&
-           (*l).sx <= this->xMax && (*l).sx >= this->xMin &&
+           (*l).ox <= this->xMax && (*l).ox >= this->xMin &&
            (*l).ex <= this->xMax && (*l).ex >= this->xMin) {
-            (*l).addToCanvas(this->xMax/2, this->yMax/2);
+            (*l).addToCanvas();
         }
     }
     this->draw();
@@ -55,7 +55,7 @@ void Camera::drawWithoutCulling()
         (*p).addToCanvas();
     }
     for(linesegmentiter_vec_t l = this->linesegments.begin(); l != linesegments.end(); l++) {
-        (*l).addToCanvas(this->xMax/2, this->yMax/2);
+        (*l).addToCanvas();
     }
     this->draw();
 }
@@ -70,7 +70,9 @@ void Camera::scale(const float &x, const float &y, const float &z)
     }
     for(linesegmentiter_vec_t l = linesegments.begin(); l != linesegments.end(); l++) {
         Linesegment *lnew = (*l).scale(x, y, z);
-        (*l).setPoint(lnew->sx, lnew->sy, lnew->sz, lnew->ex, lnew->ey, lnew->ez);
+        point_t s(lnew->ox, lnew->oy, lnew->oz);
+        point_t e(lnew->ex, lnew->ey, lnew->ez);
+        (*l).setPoint(s, e);
         delete lnew;
     }
 }
@@ -85,7 +87,9 @@ void Camera::rotateXY()
     }
     for(linesegmentiter_vec_t l = this->linesegments.begin(); l != this->linesegments.end(); l++) {
         Linesegment *lnew = (*l).rotateXY(15);
-        (*l).setPoint(lnew->sx, lnew->sy, lnew->sz, lnew->ex, lnew->ey, lnew->ez);
+        point_t s(lnew->ox, lnew->oy, lnew->oz);
+        point_t e(lnew->ex, lnew->ey, lnew->ez);
+        (*l).setPoint(s, e);
         delete lnew;
     }
 }
@@ -99,21 +103,30 @@ void Camera::start()
         points.push_back(*p);
     }*/
 
-    Linesegment *l = new Linesegment(this->renderer, 0, 0, 0, 100, 0, 0);
+    point_t s(0, 0, 0);
+    point_t e(100, 0, 0);
+    Linesegment *l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,-100,0,0);
+    e.x = -100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,0,100,0);
+    e.x = 0; e.y = 100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,0,-100,0);
+    e.y = -100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,100,100,0);
+    e.x = 100; e.y = 100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,-100,-100,0);
+    e.x = -100; e.y = -100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,-100,100,0);
+    e.y = 100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
-    l = new Linesegment(this->renderer, 0,0,0,100,-100,0);
+    e.x = 100; e.y = -100;
+    l = new Linesegment(this->renderer, s, e);
     linesegments.push_back(*l);
 
     while(!quit) {

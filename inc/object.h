@@ -5,6 +5,8 @@
 #ifndef __OBJECT_H__
 #define __OBJECT_H__
 
+#include <SDL2/SDL.h>
+
 typedef struct point_t
 {
     int x;
@@ -17,10 +19,11 @@ typedef struct point_t
 
 class Object {
 public:
-    Object(point_t p);
+    Object(SDL_Renderer *renderer, point_t p);
 
     int ox, oy, oz;
 protected:
+    SDL_Renderer *renderer;
 private:
 };
 

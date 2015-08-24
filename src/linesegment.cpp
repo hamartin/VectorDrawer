@@ -4,36 +4,38 @@
 
 #include "linesegment.h"
 
-Linesegment::Linesegment(SDL_Renderer *renderer, const int &sx, const int &sy, const int &sz, const int &ex, const int &ey, const int &ez)
+Linesegment::Linesegment(SDL_Renderer *renderer, const point_t &s, const point_t &e) : Object(renderer, s)
 {
-    this->renderer = renderer;
-    this->sx = sx; this->sy = sy; this->sz = sz;
-    this->ex = ex; this->ey = ey; this->ez = ez;
+    this->ex = e.x; this->ey = e.y; this->ez = e.z;
     this->pointsInSegment();
 }
 
 Linesegment *Linesegment::rotateXY(const int &degrees)
 {
     double radian = (degrees * M_PI)/180;
-    double s = sin(radian);
-    double c = cos(radian);
-    double sx = this->sx * c - this->sy * s;
-    double sy = this->sx * s + this->sy * c;
-    double ex = this->ex * c - this->ey * s;
-    double ey = this->ex * s + this->ey * c;
-    double sz = this->sz; double ez = this->ex;
-    Linesegment *l = new Linesegment(this->renderer, lround(sx), lround(sy),
-            lround(sz), lround(ex), lround(ey), lround(ez));
+    double si = sin(radian);
+    double co = cos(radian);
+    int sx = lround(this->ox * co - this->oy * si);
+    int sy = lround(this->ox * si + this->oy * co);
+    int sz = lround(this->oz);
+    point_t s(sx, sy, sz);
+    int ex = lround(this->ex * co - this->ey * si);
+    int ey = lround(this->ex * si + this->ey * co);
+    int ez = lround(this->ez);
+    point_t e(ex, ey, ez);
+    Linesegment *l = new Linesegment(this->renderer, s, e);
     return l;
 }
 
 Linesegment *Linesegment::scale(const float &x, const float &y, const float &z)
 {
-    Linesegment *l = new Linesegment(this->renderer, this->sx *= x, this->sy *= y, this->sz *= z, this->ex *= x, this->ey *= y, this->ez *= z);
+    point_t s(this->ox *= x, this->oy *= y, this->oz *= z);
+    point_t e(this->ex *= x, this->ey *= y, this->ez *= z);
+    Linesegment *l = new Linesegment(this->renderer, s, e);
     return l;
 }
 
-void Linesegment::addToCanvas(const int &x, const int &y)
+void Linesegment::addToCanvas()
 {
     for(pointiter_vec_t p = this->seg.begin(); p != this->seg.end(); p++) {
         (*p).addToCanvas();
@@ -44,7 +46,7 @@ void Linesegment::pointsInSegment()
 {
     this->seg.clear();
 
-    float x1 = this->sx; float y1 = this->sy;
+    float x1 = this->ox; float y1 = this->oy;
     float x2 = this->ex; float y2 = this->ey;
 
     const bool steep = (fabs(y2 - y1) > fabs(x2 - x1));
@@ -69,10 +71,10 @@ void Linesegment::pointsInSegment()
 
     for(int x = (int)x1; x < maxX; x++) {
         if(steep) {
-            point_t newp(y, x, this->sz);
+            point_t newp(y, x, this->oz);
             this->seg.push_back(Point(this->renderer, newp));
         } else {
-            point_t newp(x, y, this->sz);
+            point_t newp(x, y, this->oz);
             this->seg.push_back(Point(this->renderer, newp));
         }
 
@@ -84,10 +86,10 @@ void Linesegment::pointsInSegment()
     }
 }
 
-void Linesegment::setPoint(const int &sx, const int &sy, const int &sz, const int &ex, const int &ey, const int &ez)
+void Linesegment::setPoint(const point_t &s, const point_t &e)
 {
-    this->sx = sx; this->ex = ex;
-    this->sy = sy; this->ey = ey;
-    this->sz = sz; this->ez = ez;
+    this->ox = s.x; this->ex = e.x;
+    this->oy = s.y; this->ey = e.y;
+    this->oz = s.z; this->ey = e.z;
     this->pointsInSegment();
 }
