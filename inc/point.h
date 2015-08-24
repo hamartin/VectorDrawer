@@ -9,10 +9,11 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include "vector.h"
+#include "object.h"
 
-class Point {
+class Point : public Object {
 public:
-    Point(SDL_Renderer *renderer, const int &x, const int &y, const int &z);
+    Point(SDL_Renderer *renderer, const point_t &p);
     Point *addVector(Vector *v);
     Point *rotateXY(const int &degrees);
     Point *rotateYZ(const int &degrees);
@@ -20,12 +21,10 @@ public:
     Point *scale(const float &x, const float &y, const float &z);
     Point *subtractVector(Vector *v);
     Vector *subtractPoint(Point *p);
-    void addToCanvas(const int &x = 0, const int &y = 0);
+    void addToCanvas();
     void print();
-    void setPoint(const int &x, const int &y, const int &z);
+    void setPoint(const point_t &p);
     void setPoint(Point *p);
-
-    int x, y, z;
 protected:
 private:
     SDL_Renderer *renderer;

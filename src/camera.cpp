@@ -29,10 +29,10 @@ void Camera::drawWithCulling()
 {
     SDL_RenderClear(this->renderer);
     for(pointiter_vec_t p = this->points.begin(); p != points.end(); p++) {
-        if((*p).z < this->zMax && (*p).z > this->zMin &&
-           (*p).y < this->yMax && (*p).y > this->yMin &&
-           (*p).x < this->xMax && (*p).x > this->xMin) {
-            (*p).addToCanvas(this->xMax/2, this->yMax/2);
+        if((*p).oz < this->zMax && (*p).oz > this->zMin &&
+           (*p).oy < this->yMax && (*p).oy > this->yMin &&
+           (*p).ox < this->xMax && (*p).ox > this->xMin) {
+            (*p).addToCanvas();
         }
     }
     for(linesegmentiter_vec_t l = this->linesegments.begin(); l != linesegments.end(); l++) {
@@ -52,7 +52,7 @@ void Camera::drawWithoutCulling()
 {
     SDL_RenderClear(this->renderer);
     for(pointiter_vec_t p = this->points.begin(); p != points.end(); p++) {
-        (*p).addToCanvas(this->xMax/2, this->yMax/2);
+        (*p).addToCanvas();
     }
     for(linesegmentiter_vec_t l = this->linesegments.begin(); l != linesegments.end(); l++) {
         (*l).addToCanvas(this->xMax/2, this->yMax/2);
@@ -64,7 +64,8 @@ void Camera::scale(const float &x, const float &y, const float &z)
 {
     for(pointiter_vec_t p = points.begin(); p != points.end(); p++) {
         Point *pnew = (*p).scale(x, y, z);
-        (*p).setPoint(pnew->x, pnew->y, pnew->z);
+        point_t newp(pnew->ox, pnew->oy, pnew->oz);
+        (*p).setPoint(newp);
         delete pnew;
     }
     for(linesegmentiter_vec_t l = linesegments.begin(); l != linesegments.end(); l++) {
@@ -78,7 +79,8 @@ void Camera::rotateXY()
 {
     for(pointiter_vec_t p = this->points.begin(); p != this->points.end(); p++) {
         Point *pnew = (*p).rotateXY(15);
-        (*p).setPoint(pnew->x, pnew->y, pnew->z);
+        point_t newp(pnew->ox, pnew->oy, pnew->oz);
+        (*p).setPoint(newp);
         delete pnew;
     }
     for(linesegmentiter_vec_t l = this->linesegments.begin(); l != this->linesegments.end(); l++) {

@@ -36,7 +36,7 @@ Linesegment *Linesegment::scale(const float &x, const float &y, const float &z)
 void Linesegment::addToCanvas(const int &x, const int &y)
 {
     for(pointiter_vec_t p = this->seg.begin(); p != this->seg.end(); p++) {
-        (*p).addToCanvas(x, y);
+        (*p).addToCanvas();
     }
 }
 
@@ -69,9 +69,11 @@ void Linesegment::pointsInSegment()
 
     for(int x = (int)x1; x < maxX; x++) {
         if(steep) {
-            this->seg.push_back(Point(this->renderer, y, x, this->sz));
+            point_t newp(y, x, this->sz);
+            this->seg.push_back(Point(this->renderer, newp));
         } else {
-            this->seg.push_back(Point(this->renderer, x, y, this->sz));
+            point_t newp(x, y, this->sz);
+            this->seg.push_back(Point(this->renderer, newp));
         }
 
         error -= dy;
