@@ -18,15 +18,15 @@ RM_DIR=rmdir
 RM_FIL=rm -f
 
 # Source .cpp
-_SRC=vd.cpp camera.cpp variables.cpp
+_SRC=vd.cpp
 SRC=$(patsubst %.cpp, $(SDIR)/%.cpp, $(_SRC))
 
 # Dependencies .h
-_DEPS=vd.h camera.h variables.h
+_DEPS=vd.h
 DEPS=$(patsubst %.h, $(IDIR)/%.h, $(_DEPS))
 
 # Objects .o
-_OBJ=vd.o camera.o variables.o
+_OBJ=vd.o
 OBJ=$(patsubst %.o, $(ODIR)/%.o, $(_OBJ))
 
 all: directories $(TARGET)
