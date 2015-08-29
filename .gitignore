@@ -32,3 +32,5 @@ old
 *.exe
 *.out
 *.app
+
+.syntastic_cpp_config
