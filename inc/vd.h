@@ -12,5 +12,6 @@
 int main();
 sdlc *initSDL();
 void logCritical(std::string err);
+void start(sdlc *container);
 
 #endif

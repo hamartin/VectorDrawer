@@ -17,6 +17,12 @@ int main()
         return err;
     }
 
+#ifdef DEBUG
+    SDL_LogSetAllPriority(SDL_LOG_PRIORITY_WARN);
+#endif
+
+    start(container);
+
     // Cleaning up before exit.
     delete container;
     std::cout << "Bye bye!\n";
@@ -56,4 +62,29 @@ void logCritical(std::string err)
 {
     err += std::string(" SDL ERROR: ") + std::string(SDL_GetError()) + std::string("\n");
     SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, err.c_str());
+}
+
+void start(sdlc *container)
+{
+    bool quit = false;
+#ifdef DEBUG
+    int xmax = container->current->w;
+    int ymax = container->current->h;
+#endif
+
+    while(!quit) {
+        while(SDL_PollEvent(container->event) != 0) {
+            if(container->event->type == SDL_QUIT ||
+                    container->event->key.keysym.scancode == SDL_SCANCODE_Q ||
+                    container->event->key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
+                quit = true;
+#ifdef DEBUG
+            } else if(container->event->type == SDL_WINDOWEVENT && container->event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+                xmax = container->current->w;
+                ymax = container->current->h;
+                std::cout << "XMAX: " << xmax << "\nYMAX: " << ymax << std::endl;
+#endif
+            }
+        }
+    }
 }
