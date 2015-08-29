@@ -72,23 +72,35 @@ void start(sdlc *container)
     int ymax = container->current->h;
 #endif
 
+    point_t *pbegin = new point_t(100, 100);
+    point_t *pend = new point_t(200, 200);
+    Point *pn = new Point(pbegin);
+    Point *pe = new Point(pend);
+    Linesegment *l = new Linesegment(pn, pe);
+
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
             if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
-                Point *p = new Point(new point_t(100, 100));
-                point_t *pnew = p->getPoint();
+                point_t *px = l->getStartPoint();
+                point_t *pc = l->getEndPoint();
                 SDL_RenderClear(container->renderer);
-                SDL_RenderDrawPoint(container->renderer, pnew->x, pnew->y);
+                SDL_RenderDrawPoint(container->renderer, px->x, px->y);
+                SDL_RenderDrawPoint(container->renderer, pc->x, pc->y);
                 SDL_RenderPresent(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
                 SDL_RenderClear(container->renderer);
                 SDL_RenderPresent(container->renderer);
+                delete l;
+                //l = new Linesegment(pn, pe);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
-                Point *p = new Point(new point_t(100, 100));
-                p->rotate(15);
-                point_t *pnew = p->getPoint();
+                l->rotate(15);
+                point_t *px = l->getStartPoint();
+                point_t *pc = l->getEndPoint();
+                std::cout << px->x << " " << px->y << std::endl;
+                std::cout << pc->x << " " << pc->y << std::endl;
                 SDL_RenderClear(container->renderer);
-                SDL_RenderDrawPoint(container->renderer, pnew->x, pnew->y);
+                SDL_RenderDrawPoint(container->renderer, px->x, px->y);
+                SDL_RenderDrawPoint(container->renderer, pc->x, pc->y);
                 SDL_RenderPresent(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_Q ||
