@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include "point.h"
 #include "variables.h"
 
 int main();

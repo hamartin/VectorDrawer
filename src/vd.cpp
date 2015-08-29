@@ -74,7 +74,23 @@ void start(sdlc *container)
 
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
-            if(container->event->type == SDL_QUIT ||
+            if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
+                Point *p = new Point(new point_t(100, 100));
+                point_t *pnew = p->getPoint();
+                SDL_RenderClear(container->renderer);
+                SDL_RenderDrawPoint(container->renderer, pnew->x, pnew->y);
+                SDL_RenderPresent(container->renderer);
+            } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
+                SDL_RenderClear(container->renderer);
+                SDL_RenderPresent(container->renderer);
+            } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
+                Point *p = new Point(new point_t(100, 100));
+                p->rotate(15);
+                point_t *pnew = p->getPoint();
+                SDL_RenderClear(container->renderer);
+                SDL_RenderDrawPoint(container->renderer, pnew->x, pnew->y);
+                SDL_RenderPresent(container->renderer);
+            } else if(container->event->type == SDL_QUIT ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_Q ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                 quit = true;
