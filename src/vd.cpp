@@ -58,17 +58,31 @@ sdlc *initSDL()
     }
 }
 
-void draw(SDL_Renderer *renderer, point_vec_t *points)
+void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments)
 {
     for(pointit_vec_t p = points->begin(); p != points->end(); p++) {
         point_t *dp = (*p)->getPoint();
         SDL_RenderDrawPoint(renderer, dp->x, dp->y);
+    }
+    for(lsit_vec_t l = linesegments->begin(); l != linesegments->end(); l++) {
+        point_vec_t *p = (*l)->getPoints();
+        for(pointit_vec_t pit = p->begin(); pit != p->end(); pit++) {
+            point_t *dp = (*pit)->getPoint();
+            SDL_RenderDrawPoint(renderer, dp->x, dp->y);
+        }
     }
 }
 
 void render(SDL_Renderer *renderer)
 {
     SDL_RenderPresent(renderer);
+}
+
+void rotate(point_vec_t *points, const int degrees)
+{
+    for(pointit_vec_t p = points->begin(); p != points->end(); p++) {
+        (*p)->rotate(degrees);
+    }
 }
 
 void logCritical(std::string err)
@@ -86,28 +100,39 @@ void start(sdlc *container)
 #endif
 
     point_vec_t *points = new point_vec_t;
+    ls_vec_t *linesegments = new ls_vec_t;
 
-    points->push_back(new Point(new point_t(100, 100)));
-    points->push_back(new Point(new point_t(200, 100)));
-    points->push_back(new Point(new point_t(100, 200)));
-    points->push_back(new Point(new point_t(50, 100)));
-    points->push_back(new Point(new point_t(200, 75)));
-    points->push_back(new Point(new point_t(200, 400)));
-    points->push_back(new Point(new point_t(150, 700)));
-    points->push_back(new Point(new point_t(35, 75)));
+//    points->push_back(new Point(new point_t(100,100)));
+//    points->push_back(new Point(new point_t(110,100)));
+//    points->push_back(new Point(new point_t(100,110)));
+//    points->push_back(new Point(new point_t(120,120)));
+//    points->push_back(new Point(new point_t(130,100)));
+//    points->push_back(new Point(new point_t(100,130)));
+//    points->push_back(new Point(new point_t(140,140)));
+//
+//    for(int i = 200; i < 300; i++) {
+//        points->push_back(new Point(new point_t(i, i)));
+//    }
+
+    for(int i = 350; i < 450; i++) {
+        Point *p1 = new Point(new point_t(i, i));
+        Point *p2 = new Point(new point_t(i+100, i+150));
+        linesegments->push_back(new Linesegment(p1, p2));
+    }
 
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
             if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
                 SDL_RenderClear(container->renderer);
-                draw(container->renderer, points);
+                draw(container->renderer, points, linesegments);
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
                 SDL_RenderClear(container->renderer);
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
                 SDL_RenderClear(container->renderer);
-                draw(container->renderer, points);
+                rotate(points, -15);
+                draw(container->renderer, points, linesegments);
                 render(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_Q ||

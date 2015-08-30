@@ -6,19 +6,20 @@
 #define __POINT_H__
 
 #include <cmath>
+#include <iostream>
 #include <vector>
 #include "variables.h"
-#include <iostream>
 
 class Point {
 public:
     Point(point_t *p);
     ~Point();
     point_t *getPoint();
+    void print();
     void rotate(const int degrees, point_t *origin = NULL);
     void rotate(const float degrees, point_t *origin = NULL);
     void rotate(const double degrees, point_t *origin = NULL);
-private:
+protected:
     point_t *p;
 };
 

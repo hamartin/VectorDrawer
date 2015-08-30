@@ -19,6 +19,11 @@ point_t *Point::getPoint()
     return p;
 }
 
+void Point::print()
+{
+    std::cout << "Point:\n\tX: " << p->x << "\n\tY: " << p->y << std::endl;
+}
+
 void Point::rotate(const int degrees, point_t *origin)
 {
     Point::rotate((double)degrees, origin);

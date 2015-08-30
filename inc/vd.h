@@ -7,6 +7,7 @@
 
 #include <SDL2/SDL.h>
 #include <string>
+#include "linesegment.h"
 #include "point.h"
 #include "variables.h"
 
@@ -16,8 +17,9 @@
 
 int main();
 sdlc *initSDL();
-void draw(SDL_Renderer *renderer, point_vec_t *points);
+void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments);
 void render(SDL_Renderer *renderer);
+void rotate(point_vec_t *points, const int degrees);
 void logCritical(std::string err);
 void start(sdlc *container);
 
