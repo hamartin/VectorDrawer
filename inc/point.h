@@ -6,6 +6,7 @@
 #define __POINT_H__
 
 #include <cmath>
+#include <vector>
 #include "variables.h"
 #include <iostream>
 
@@ -20,5 +21,8 @@ public:
 private:
     point_t *p;
 };
+
+typedef std::vector<Point *> point_vec_t;
+typedef std::vector<Point *>::iterator pointit_vec_t;
 
 #endif

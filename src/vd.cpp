@@ -58,6 +58,19 @@ sdlc *initSDL()
     }
 }
 
+void draw(SDL_Renderer *renderer, point_vec_t *points)
+{
+    for(pointit_vec_t p = points->begin(); p != points->end(); p++) {
+        point_t *dp = (*p)->getPoint();
+        SDL_RenderDrawPoint(renderer, dp->x, dp->y);
+    }
+}
+
+void render(SDL_Renderer *renderer)
+{
+    SDL_RenderPresent(renderer);
+}
+
 void logCritical(std::string err)
 {
     err += std::string(" SDL ERROR: ") + std::string(SDL_GetError()) + std::string("\n");
@@ -72,26 +85,30 @@ void start(sdlc *container)
     int ymax = container->current->h;
 #endif
 
-    Point *p = new Point(new point_t(100, 100));
-    point_t *rp = new point_t(80, 80);
+    point_vec_t *points = new point_vec_t;
+
+    points->push_back(new Point(new point_t(100, 100)));
+    points->push_back(new Point(new point_t(200, 100)));
+    points->push_back(new Point(new point_t(100, 200)));
+    points->push_back(new Point(new point_t(50, 100)));
+    points->push_back(new Point(new point_t(200, 75)));
+    points->push_back(new Point(new point_t(200, 400)));
+    points->push_back(new Point(new point_t(150, 700)));
+    points->push_back(new Point(new point_t(35, 75)));
 
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
             if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
-                point_t *pt = p->getPoint();
                 SDL_RenderClear(container->renderer);
-                SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
-                SDL_RenderPresent(container->renderer);
+                draw(container->renderer, points);
+                render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
                 SDL_RenderClear(container->renderer);
-                SDL_RenderPresent(container->renderer);
+                render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
-                p->rotate(15, rp);
-                point_t *pt = p->getPoint();
                 SDL_RenderClear(container->renderer);
-                SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
-                SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
-                SDL_RenderPresent(container->renderer);
+                draw(container->renderer, points);
+                render(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_Q ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
@@ -105,4 +122,6 @@ void start(sdlc *container)
             }
         }
     }
+
+    delete points;
 }
