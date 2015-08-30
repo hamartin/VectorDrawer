@@ -9,6 +9,12 @@ Point::Point(point_t *p)
     this->p = p;
 }
 
+Point::Point(const int x, const int y)
+{
+    point_t *p = new point_t(x, y);
+    this->p = p;
+}
+
 Point::~Point()
 {
     delete p;
