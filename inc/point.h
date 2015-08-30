@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include "variables.h"
+#include <iostream>
 
 class Point {
 public:

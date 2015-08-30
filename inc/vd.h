@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <string>
-#include "linesegment.h"
 #include "point.h"
 #include "variables.h"
 

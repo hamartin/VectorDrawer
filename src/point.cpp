@@ -34,17 +34,16 @@ void Point::rotate(const double degrees, point_t *origin)
     double radian = (degrees * M_PI)/180;
     double s = sin(radian);
     double c = cos(radian);
-
-    int x;
-    int y;
+    int x, y;
 
     if(origin) {
-        x = (int)((p->x - origin->x) * c - (p->y - origin->y) * s);
-        y = (int)((p->y - origin->y) * s + (p->y - origin->y) * c);
-        p->x = x + origin->x;
-        p->y = y + origin->y;
+        x = (int)lround(((p->x - origin->x) * c) - ((p->y - origin->y) * s)) + origin->x;
+        y = (int)lround(((p->x - origin->x) * s) + ((p->y - origin->y) * c)) + origin->y;
     } else {
-        p->x = (int)(p->x * c - p->y * s);
-        p->y = (int)(p->x * s + p->y * c);
+        x = (int)lround((p->x * c) - (p->y * s));
+        y = (int)lround((p->x * s) + (p->y * c));
     }
+
+    p->x = x;
+    p->y = y;
 }

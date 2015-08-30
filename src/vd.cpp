@@ -72,35 +72,25 @@ void start(sdlc *container)
     int ymax = container->current->h;
 #endif
 
-    point_t *pbegin = new point_t(100, 100);
-    point_t *pend = new point_t(200, 200);
-    Point *pn = new Point(pbegin);
-    Point *pe = new Point(pend);
-    Linesegment *l = new Linesegment(pn, pe);
+    Point *p = new Point(new point_t(100, 100));
+    point_t *rp = new point_t(80, 80);
 
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
             if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
-                point_t *px = l->getStartPoint();
-                point_t *pc = l->getEndPoint();
+                point_t *pt = p->getPoint();
                 SDL_RenderClear(container->renderer);
-                SDL_RenderDrawPoint(container->renderer, px->x, px->y);
-                SDL_RenderDrawPoint(container->renderer, pc->x, pc->y);
+                SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
                 SDL_RenderPresent(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
                 SDL_RenderClear(container->renderer);
                 SDL_RenderPresent(container->renderer);
-                delete l;
-                //l = new Linesegment(pn, pe);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
-                l->rotate(15);
-                point_t *px = l->getStartPoint();
-                point_t *pc = l->getEndPoint();
-                std::cout << px->x << " " << px->y << std::endl;
-                std::cout << pc->x << " " << pc->y << std::endl;
+                p->rotate(15, rp);
+                point_t *pt = p->getPoint();
                 SDL_RenderClear(container->renderer);
-                SDL_RenderDrawPoint(container->renderer, px->x, px->y);
-                SDL_RenderDrawPoint(container->renderer, pc->x, pc->y);
+                SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
+                SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
                 SDL_RenderPresent(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_Q ||
