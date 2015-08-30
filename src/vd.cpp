@@ -81,6 +81,21 @@ void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments, c
     }
 }
 
+void changeRadiusOnCircles(circle_vec_t *circles, const unsigned int size)
+{
+    for(circleit_vec_t pit = circles->begin(); pit != circles->end(); pit++) {
+        unsigned int radius = (*pit)->getRadius();
+        radius += size;
+        (*pit)->changeRadius(radius);
+    }
+}
+
+void logCritical(std::string err)
+{
+    err += std::string(" SDL ERROR: ") + std::string(SDL_GetError()) + std::string("\n");
+    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, err.c_str());
+}
+
 void render(SDL_Renderer *renderer)
 {
     SDL_RenderPresent(renderer);
@@ -94,12 +109,6 @@ void rotate(point_vec_t *points, ls_vec_t *linesegments, const int degrees)
     for(lsit_vec_t l = linesegments->begin(); l != linesegments->end(); l++) {
         (*l)->rotate(degrees);
     }
-}
-
-void logCritical(std::string err)
-{
-    err += std::string(" SDL ERROR: ") + std::string(SDL_GetError()) + std::string("\n");
-    SDL_LogCritical(SDL_LOG_CATEGORY_ERROR, err.c_str());
 }
 
 void start(sdlc *container)
@@ -145,6 +154,14 @@ void start(sdlc *container)
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
                 rotate(points, linesegments, -1);
+                draw(container->renderer, points, linesegments, circles);
+                render(container->renderer);
+            } else if(container->event->key.keysym.scancode ==SDL_SCANCODE_T) {
+                changeRadiusOnCircles(circles, 2);
+                draw(container->renderer, points, linesegments, circles);
+                render(container->renderer);
+            } else if(container->event->key.keysym.scancode ==SDL_SCANCODE_Y) {
+                changeRadiusOnCircles(circles, -2);
                 draw(container->renderer, points, linesegments, circles);
                 render(container->renderer);
             } else if(container->event->type == SDL_QUIT ||

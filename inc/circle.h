@@ -13,7 +13,9 @@ public:
     Circle(Point *origin, const unsigned int radius);
     ~Circle();
     point_vec_t *getPoints();
+    unsigned int getRadius();
     void calculateCircle();
+    void changeRadius(const unsigned int radius);
     void print();
 private:
     Point *p;

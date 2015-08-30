@@ -23,6 +23,11 @@ point_vec_t *Circle::getPoints()
     return points;
 }
 
+unsigned int Circle::getRadius()
+{
+    return radius;
+}
+
 void Circle::calculateCircle()
 {
     if(p == NULL)
@@ -63,6 +68,12 @@ void Circle::calculateCircle()
         points->push_back(new Point(new point_t(pt->x + y, pt->y - x)));
         points->push_back(new Point(new point_t(pt->x - y, pt->y - x)));
     }
+}
+
+void Circle::changeRadius(const unsigned int radius)
+{
+    this->radius = radius;
+    calculateCircle();
 }
 
 void Circle::print()
