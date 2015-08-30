@@ -6,6 +6,7 @@
 #define __LINESEGMENT_H__
 
 #include "point.h"
+#include "variables.h"
 
 class Linesegment {
 public:

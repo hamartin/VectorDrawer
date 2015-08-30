@@ -60,6 +60,7 @@ sdlc *initSDL()
 
 void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments)
 {
+    SDL_RenderClear(renderer);
     for(pointit_vec_t p = points->begin(); p != points->end(); p++) {
         point_t *dp = (*p)->getPoint();
         SDL_RenderDrawPoint(renderer, dp->x, dp->y);
@@ -126,15 +127,13 @@ void start(sdlc *container)
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
             if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
-                SDL_RenderClear(container->renderer);
                 draw(container->renderer, points, linesegments);
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
                 SDL_RenderClear(container->renderer);
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
-                SDL_RenderClear(container->renderer);
-                rotate(points, linesegments, -15);
+                rotate(points, linesegments, -1);
                 draw(container->renderer, points, linesegments);
                 render(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
