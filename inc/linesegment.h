@@ -14,6 +14,9 @@ public:
     point_vec_t *getPoints();
     void calculateLine();
     void print();
+    void rotate(const int degrees, point_t *origin = NULL);
+    void rotate(const float degrees, point_t *origin = NULL);
+    void rotate(const double degrees, point_t *origin = NULL);
 private:
     Point *start;
     Point *end;

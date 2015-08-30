@@ -19,7 +19,7 @@ int main();
 sdlc *initSDL();
 void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments);
 void render(SDL_Renderer *renderer);
-void rotate(point_vec_t *points, const int degrees);
+void rotate(point_vec_t *points, ls_vec_t *linesegments, const int degrees);
 void logCritical(std::string err);
 void start(sdlc *container);
 

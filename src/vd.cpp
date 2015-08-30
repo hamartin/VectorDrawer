@@ -78,10 +78,13 @@ void render(SDL_Renderer *renderer)
     SDL_RenderPresent(renderer);
 }
 
-void rotate(point_vec_t *points, const int degrees)
+void rotate(point_vec_t *points, ls_vec_t *linesegments, const int degrees)
 {
     for(pointit_vec_t p = points->begin(); p != points->end(); p++) {
         (*p)->rotate(degrees);
+    }
+    for(lsit_vec_t l = linesegments->begin(); l != linesegments->end(); l++) {
+        (*l)->rotate(degrees);
     }
 }
 
@@ -102,17 +105,17 @@ void start(sdlc *container)
     point_vec_t *points = new point_vec_t;
     ls_vec_t *linesegments = new ls_vec_t;
 
-//    points->push_back(new Point(new point_t(100,100)));
-//    points->push_back(new Point(new point_t(110,100)));
-//    points->push_back(new Point(new point_t(100,110)));
-//    points->push_back(new Point(new point_t(120,120)));
-//    points->push_back(new Point(new point_t(130,100)));
-//    points->push_back(new Point(new point_t(100,130)));
-//    points->push_back(new Point(new point_t(140,140)));
-//
-//    for(int i = 200; i < 300; i++) {
-//        points->push_back(new Point(new point_t(i, i)));
-//    }
+    points->push_back(new Point(new point_t(100,100)));
+    points->push_back(new Point(new point_t(110,100)));
+    points->push_back(new Point(new point_t(100,110)));
+    points->push_back(new Point(new point_t(120,120)));
+    points->push_back(new Point(new point_t(130,100)));
+    points->push_back(new Point(new point_t(100,130)));
+    points->push_back(new Point(new point_t(140,140)));
+
+    for(int i = 200; i < 300; i++) {
+        points->push_back(new Point(new point_t(i, i)));
+    }
 
     for(int i = 350; i < 450; i++) {
         Point *p1 = new Point(new point_t(i, i));
@@ -131,7 +134,7 @@ void start(sdlc *container)
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
                 SDL_RenderClear(container->renderer);
-                rotate(points, -15);
+                rotate(points, linesegments, -15);
                 draw(container->renderer, points, linesegments);
                 render(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
@@ -149,4 +152,5 @@ void start(sdlc *container)
     }
 
     delete points;
+    delete linesegments;
 }
