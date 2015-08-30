@@ -11,6 +11,8 @@
 class Circle {
 public:
     Circle(Point *origin, const unsigned int radius);
+    Circle(point_t *origin, const unsigned int radius);
+    Circle(const int x, const int y, const unsigned radius);
     ~Circle();
     point_vec_t *getPoints();
     unsigned int getRadius();

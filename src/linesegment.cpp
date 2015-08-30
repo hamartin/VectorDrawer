@@ -12,6 +12,22 @@ Linesegment::Linesegment(Point *start, Point *end)
     calculateLine();
 }
 
+Linesegment::Linesegment(const int sx, const int sy, const int ex, const int ey)
+{
+    point_t *sp = new point_t(sx, sy);
+    Point *spoint = new Point(sp);
+    point_t *ep = new point_t(ex, ey);
+    Point *epoint = new Point(ep);
+    Linesegment(spoint, epoint);
+}
+
+Linesegment::Linesegment(point_t *sp, point_t *ep)
+{
+    Point *spoint = new Point(sp);
+    Point *epoint = new Point(ep);
+    Linesegment(spoint, epoint);
+}
+
 Linesegment::~Linesegment()
 {
     delete start;

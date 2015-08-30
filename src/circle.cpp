@@ -12,6 +12,18 @@ Circle::Circle(Point *origin, const unsigned int radius)
     calculateCircle();
 }
 
+Circle::Circle(point_t *origin, const unsigned int radius)
+{
+    Point *p = new Point(origin);
+    Circle(p, radius);
+}
+
+Circle::Circle(const int x, const int y, const unsigned int radius)
+{
+    Point *p = new Point(x, y);
+    Circle(p, radius);
+}
+
 Circle::~Circle()
 {
     delete p;
