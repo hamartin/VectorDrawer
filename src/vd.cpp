@@ -58,7 +58,7 @@ sdlc *initSDL()
     }
 }
 
-void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments)
+void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments, circle_vec_t *circles)
 {
     SDL_RenderClear(renderer);
     for(pointit_vec_t p = points->begin(); p != points->end(); p++) {
@@ -67,6 +67,13 @@ void draw(SDL_Renderer *renderer, point_vec_t *points, ls_vec_t *linesegments)
     }
     for(lsit_vec_t l = linesegments->begin(); l != linesegments->end(); l++) {
         point_vec_t *p = (*l)->getPoints();
+        for(pointit_vec_t pit = p->begin(); pit != p->end(); pit++) {
+            point_t *dp = (*pit)->getPoint();
+            SDL_RenderDrawPoint(renderer, dp->x, dp->y);
+        }
+    }
+    for(circleit_vec_t c = circles->begin(); c != circles->end(); c++) {
+        point_vec_t *p = (*c)->getPoints();
         for(pointit_vec_t pit = p->begin(); pit != p->end(); pit++) {
             point_t *dp = (*pit)->getPoint();
             SDL_RenderDrawPoint(renderer, dp->x, dp->y);
@@ -105,6 +112,7 @@ void start(sdlc *container)
 
     point_vec_t *points = new point_vec_t;
     ls_vec_t *linesegments = new ls_vec_t;
+    circle_vec_t *circles = new circle_vec_t;
 
     points->push_back(new Point(new point_t(100,100)));
     points->push_back(new Point(new point_t(110,100)));
@@ -124,17 +132,20 @@ void start(sdlc *container)
         linesegments->push_back(new Linesegment(p1, p2));
     }
 
+    Point *pcircle = new Point(new point_t(500, 350));
+    circles->push_back(new Circle(pcircle, 30));
+
     while(!quit) {
         while(SDL_PollEvent(container->event) != 0) {
             if(container->event->key.keysym.scancode == SDL_SCANCODE_D) {
-                draw(container->renderer, points, linesegments);
+                draw(container->renderer, points, linesegments, circles);
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_C) {
                 SDL_RenderClear(container->renderer);
                 render(container->renderer);
             } else if(container->event->key.keysym.scancode == SDL_SCANCODE_R) {
                 rotate(points, linesegments, -1);
-                draw(container->renderer, points, linesegments);
+                draw(container->renderer, points, linesegments, circles);
                 render(container->renderer);
             } else if(container->event->type == SDL_QUIT ||
                     container->event->key.keysym.scancode == SDL_SCANCODE_Q ||
