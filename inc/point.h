@@ -20,8 +20,11 @@ public:
     void rotate(const int degrees, point_t *origin = NULL);
     void rotate(const float degrees, point_t *origin = NULL);
     void rotate(const double degrees, point_t *origin = NULL);
+
+    unsigned int ID;
 private:
     point_t *p;
+    static unsigned int IDPointIt;
 };
 
 typedef std::vector<Point *> point_vec_t;

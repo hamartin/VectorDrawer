@@ -19,10 +19,13 @@ public:
     void calculateCircle();
     void changeRadius(const unsigned int radius);
     void print();
+
+    unsigned int ID;
 private:
     Point *p;
     unsigned int radius;
     point_vec_t *points;
+    static unsigned int IDCircleIt;
 };
 
 typedef std::vector<Circle *> circle_vec_t;

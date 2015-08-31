@@ -4,28 +4,33 @@
 
 #include "linesegment.h"
 
+unsigned int Linesegment::IDLinesegmentIt = 0;
+
 Linesegment::Linesegment(Point *start, Point *end)
 {
+    ID = ++IDLinesegmentIt;
     this->start = start;
     this->end = end;
     points = new point_vec_t;
     calculateLine();
 }
 
-Linesegment::Linesegment(const int sx, const int sy, const int ex, const int ey)
+Linesegment::Linesegment(int sx, int sy, int ex, int ey)
 {
-    point_t *sp = new point_t(sx, sy);
-    Point *spoint = new Point(sp);
-    point_t *ep = new point_t(ex, ey);
-    Point *epoint = new Point(ep);
-    Linesegment(spoint, epoint);
+    ID = ++IDLinesegmentIt;
+    this->start = new Point(sx, sy);
+    this->end = new Point(ex, ey);
+    points = new point_vec_t;
+    calculateLine();
 }
 
 Linesegment::Linesegment(point_t *sp, point_t *ep)
 {
-    Point *spoint = new Point(sp);
-    Point *epoint = new Point(ep);
-    Linesegment(spoint, epoint);
+    ID = ++IDLinesegmentIt;
+    this->start = new Point(sp);
+    this->end = new Point(ep);
+    points = new point_vec_t;
+    calculateLine();
 }
 
 Linesegment::~Linesegment()
@@ -88,9 +93,10 @@ void Linesegment::calculateLine()
 
 void Linesegment::print()
 {
-    std::cout << "Linesegment:\n";
+    std::cout << "Linesegment: " << ID << std::endl;
     start->print();
     end->print();
+    std::cout << "Number of points in segment: " << points->size() << std::endl;
 }
 
 void Linesegment::rotate(const int degrees, point_t *origin)

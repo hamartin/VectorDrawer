@@ -4,8 +4,11 @@
 
 #include "circle.h"
 
+unsigned int Circle::IDCircleIt = 0;
+
 Circle::Circle(Point *origin, const unsigned int radius)
 {
+    ID = ++IDCircleIt;
     p = origin;
     this->radius = radius;
     points = new point_vec_t;
@@ -14,14 +17,20 @@ Circle::Circle(Point *origin, const unsigned int radius)
 
 Circle::Circle(point_t *origin, const unsigned int radius)
 {
-    Point *p = new Point(origin);
-    Circle(p, radius);
+    ID = ++IDCircleIt;
+    p = new Point(origin);
+    this->radius = radius;
+    points = new point_vec_t;
+    calculateCircle();
 }
 
 Circle::Circle(const int x, const int y, const unsigned int radius)
 {
-    Point *p = new Point(x, y);
-    Circle(p, radius);
+    ID = ++IDCircleIt;
+    p = new Point(x, y);
+    this->radius = radius;
+    points = new point_vec_t;
+    calculateCircle();
 }
 
 Circle::~Circle()
@@ -90,6 +99,7 @@ void Circle::changeRadius(const unsigned int radius)
 
 void Circle::print()
 {
-    std::cout << "Circle:\nRadius: " << radius << std::endl;
+    std::cout << "Circle: " << ID << "\n\tRadius: " << radius << std::endl;
     p->print();
+    std::cout << "Number of points in circle: " << points->size() << std::endl;
 }

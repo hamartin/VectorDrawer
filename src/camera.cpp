@@ -13,9 +13,14 @@ Camera::Camera(sdlc *container)
     // We take over the responsebility for this pointer.
     this->container = container;
 
-    points->push_back(new Point(new point_t(100,100)));
-    linesegments->push_back(new Linesegment(new Point(200, 200), new Point(300,300)));
+    for(int i = 0; i < 100; i++) {
+        points->push_back(new Point(i, i));
+    }
+    for(int i = 0; i < 100; i++) {
+        linesegments->push_back(new Linesegment(i+250, i+250, i+350, i+350));
+    }
     circles->push_back(new Circle(new Point(400, 400), 50));
+    circles->push_back(new Circle(new Point(new point_t(600, 600)), 100));
 }
 
 Camera::~Camera()
@@ -47,21 +52,46 @@ void Camera::clear()
 void Camera::drawAndRender()
 {
     clear();
+    point_t *pt = NULL;
+    point_vec_t *ps = NULL;
+
+#ifdef DEBUG
+    std::cout << "Drawing and rendering.\n";
+    std::cout << "Starting iteration over points.\n";
+    std::cout << "Number of points: " << points->size() << std::endl;
+#endif
     for(pointit_vec_t pit = points->begin(); pit != points->end(); pit++) {
-        point_t *pt = (*pit)->getPoint();
+        pt = (*pit)->getPoint();
         SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
+#ifdef DEBUG
+        (*pit)->print();
+#endif
     }
+#ifdef DEBUG
+    std::cout << "Starting iteration over linesegments.\n";
+    std::cout << "Number of linesegments: " << linesegments->size() << std::endl;
+#endif
     for(lsit_vec_t lit = linesegments->begin(); lit != linesegments->end(); lit++) {
-        point_vec_t *ps = (*lit)->getPoints(); 
+        ps = (*lit)->getPoints(); 
+#ifdef DEBUG
+        (*lit)->print();
+#endif
         for(pointit_vec_t pit = ps->begin(); pit != ps->end(); pit++) {
-            point_t *pt = (*pit)->getPoint();
+            pt = (*pit)->getPoint();
             SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
         }
     }
+#ifdef DEBUG
+    std::cout << "Starting iteration over circles.\n";
+    std::cout << "Number of circles: " << circles->size() << std::endl;
+#endif
     for(circleit_vec_t cit = circles->begin(); cit != circles->end(); cit++) {
-        point_vec_t *ps = (*cit)->getPoints();
+        ps = (*cit)->getPoints();
+#ifdef DEBUG
+        (*cit)->print();
+#endif
         for(pointit_vec_t pit = ps->begin(); pit != ps->end(); pit++) {
-            point_t *pt = (*pit)->getPoint();
+            pt = (*pit)->getPoint();
             SDL_RenderDrawPoint(container->renderer, pt->x, pt->y);
         }
     }
