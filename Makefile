@@ -18,7 +18,7 @@ RM_DIR=rmdir
 RM_FIL=rm -f
 
 # Source .cpp
-_SRC=vd.cpp point.cpp variables.cpp linesegment.cpp circle.cpp camera.cpp
+_SRC=vd.cpp point.cpp linesegment.cpp circle.cpp camera.cpp
 SRC=$(patsubst %.cpp, $(SDIR)/%.cpp, $(_SRC))
 
 # Dependencies .h
@@ -26,7 +26,7 @@ _DEPS=vd.h point.h variables.h linesegment.h circle.h camera.h
 DEPS=$(patsubst %.h, $(IDIR)/%.h, $(_DEPS))
 
 # Objects .o
-_OBJ=vd.o point.o variables.o linesegment.o circle.o camera.o
+_OBJ=vd.o point.o linesegment.o circle.o camera.o
 OBJ=$(patsubst %.o, $(ODIR)/%.o, $(_OBJ))
 
 all: directories $(TARGET)
